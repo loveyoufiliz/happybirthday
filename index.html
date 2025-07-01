@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sənin üçün, Sevgilim!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Kodları Buradadır */
+        :root {
+            --primary-color: #ff6b81;
+            --secondary-color: #ffc0cb;
+            --text-color: #333;
+            --bg-color: #fff0f5;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Geri Sayım Ekranı */
+        #countdown-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1d1d1d;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #countdown-container h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .countdown div {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+        .countdown span {
+            display: block;
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+        }
+         .countdown p {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+         }
+
+        /* Əsas Kontent (Başlanğıcda Gizli) */
+        #main-content {
+            display: none;
+        }
+
+        /* Header */
+        .main-header {
+            background: url('ana_shekil.jpg') no-repeat center center/cover;
+            height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .main-header h1, .main-header p {
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .main-header h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .main-header p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        /* Ümumi Bölmələr */
+        main section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        main h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        
+        /* Mesaj Bölməsi */
+        .message-section {
+             background: white;
+        }
+        .message-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Qalereya */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Xüsusi Hədiyyə (Mahnı) */
+         .special-gift {
+             background: white;
+         }
+        .special-gift iframe {
+            max-width:50%;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+        }
+
+        /* Uçan Ürəklər */
+        .heart {
+            position: absolute;
+            top: -10vh;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: fall linear infinite;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        /* Animasiyalar */
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Dizayn */
+        @media (max-width: 768px) {
+            .main-header h1 { font-size: 2.5rem; }
+            .main-header p { font-size: 1.2rem; }
+            #countdown-container h1 { font-size: 2rem; }
+            .countdown { flex-direction: column; align-items: center; }
+            .countdown div { margin-bottom: 10px; width: 80%; }
+            .countdown span { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="countdown-container">
+        <h1>Gözləməyə dəyər...</h1>
+        <div id="countdown" class="countdown">
+            <div><span id="days">00</span><p>Gün</p></div>
+            <div><span id="hours">00</span><p>Saat</p></div>
+            <div><span id="minutes">00</span><p>Dəqiqə</p></div>
+            <div><span id="seconds">00</span><p>Saniyə</p></div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <header class="main-header">
+            <h1>Ad Günün Mübarək, Mənim Əzizim!</h1>
+            <p>Bu günün zövqünü yaşa</p>
+        </header>
+
+        <main>
+            <section class="message-section">
+                <div class="message-box">
+                    <h2>Mənim Ürək Sözlərim ❤️</h2>
+                    <p>
+                        Salam, əzizim.
+
+Bunu oxuyursansa, deməli, artıq iyulun 6-dır və sənin doğum günündür. Bu gün hər ikimiz üçün də dəyərli və əzəmətli bir gündür. Bu gün mənim uşaqlıq sevgimin və dəyərlimin doğum günüdür.
+
+Mən səni 11 ildir ki, tanıyıram. Sən tanıdığım ən mərd qızsan, həyatdakı bütün çətinliklərə boyun əyməmisən. Bundan sonra da belə davam et!
+
+Doğrudur, bu günü birlikdə qeyd edə bilmirik. Amma gələcək yaşları birlikdə qeyd etmək arzusu ilə... Sevgilim, 17 yaşın mübarək!
+
+Sevgilərlə,
+sevgilin Polad.
+                    </p>
+                </div>
+            </section>
+
+            <section class="gallery-section">
+                <h2></h2>
+                <div class="gallery">
+                    <div class="gallery-item"><img src="foto.jpg" alt="Xatirə 1"></div>
+                    <div class="gallery-item"><img src="foto1.jpg" alt="Xatirə 2"></div>
+                    <div class="gallery-item"><img src="foto2.jpg" alt="Xatirə 3"></div>
+                    <div class="gallery-item"><img src="foto3.jpg" alt="Xatirə 4"></div>
+                </div>
+            </section>
+            
+           <section class="special-gift">
+            <h2>Sənə Kiçik Bir Hədiyyəm Var</h2>
+            <p>Bu mahnılar bizim üçün...</p> <div class="video-container">
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/6KostEGpTNI?si=vTaN87iWBpmEFb60" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/qDUJPJbbieI?si=uwiPf-F2CAo83U1v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+
+        </section>
+           </div>
+        </main>
+
+        <footer>
+            <p>Səni Sonsuz Sevən Biri Tərəfindən Hazırlandı © 2025</p>
+        </footer>
+    </div>
+
+
+    <script>
+        // JavaScript Kodları Buradadır 
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Elementləri seçirik
+            const countdownContainer = document.getElementById('countdown-container');
+            const mainContent = document.getElementById('main-content');
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            // ===================================================================
+            // DOĞUM GÜNÜ TARİXİNİ BURAYA YAZIN (İL-AY-GÜN formatında)
+            // Məsələn, 25 Dekabr 2025 üçün: '2025-12-25T00:00:00'
+            const birthdayString = '2025-07-01T00:00:00'; // <- DİQQƏT: BU TARİXİ DƏYİŞİN!
+            // ===================================================================
+
+            const birthday = new Date(birthdayString);
+
+            function showMainContent() {
+                countdownContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+
+                // Əsas səhifə açıldıqdan sonra ürəkləri yaratmağa başla
+                setInterval(createHeart, 500);
+            }
+
+            const countdownInterval = setInterval(() => {
+                const now = new Date();
+                const diff = birthday - now;
+
+                // Vaxt bitibsə
+                if (diff <= 0) {
+                    clearInterval(countdownInterval);
+                    showMainContent();
+                    return;
+                }
+
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                daysEl.innerText = d < 10 ? '0' + d : d;
+                hoursEl.innerText = h < 10 ? '0' + h : h;
+                minutesEl.innerText = m < 10 ? '0' + m : m;
+                secondsEl.innerText = s < 10 ? '0' + s : s;
+
+            }, 1000);
+            
+            // Uçan ürəkləri yaradan funksiya
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // 3-5 saniyə arası
+                heart.innerText = 'F❤️P';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }
+        });
+    </script>
+
+</body>
+</html>
